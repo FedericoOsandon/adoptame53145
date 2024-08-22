@@ -1,6 +1,7 @@
 const express = require('express' )
 const mongoose = require('mongoose' )
 const cookieParser = require('cookie-parser' )
+const dotenv = require('dotenv')
 
 const usersRouter = require('./routes/users.router.js' )
 const petsRouter = require('./routes/pets.router.js' )
@@ -16,6 +17,7 @@ const swaggerJsDoc = require('swagger-jsdoc')
 const swaggerUiExpress = require('swagger-ui-express')
 const { swaggerOptions } = require('./config/swagger.config.js')
 const cors = require('cors')
+dotenv.config()
 
 const app = express() 
 const PORT = process.env.PORT||8080 // importante
@@ -25,6 +27,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(addLogger)
 app.use(cors())
+app.use(express.static(__dirname+'/public'))
 
 const specs = swaggerJsDoc(swaggerOptions)
 app.use('/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
